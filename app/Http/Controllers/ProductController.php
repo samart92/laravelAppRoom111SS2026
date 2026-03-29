@@ -33,7 +33,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        Product::create([
+            'name'=>$request->proName,
+            'detail'=>$request->proDetail,
+            'price'=>$request->proPrice,
+            'image'=>$request->proimage,
+        ]);
+
+        return redirect()->route('product.index');//return to home page
     }
 
     /**
@@ -49,7 +57,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('product.update', compact('product'));
     }
 
     /**
@@ -57,7 +65,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+
+            $product->name=$request->proName;
+            $product->detail=$request->proDetail;
+            $product->price=$request->proPrice;
+            $product->image=$request->proimage;
+            $product->save();
+
+            return redirect()->route('product.index');
     }
 
     /**
@@ -65,6 +80,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        
+        $product->delete();
+        return redirect()->route('product.index');
     }
 }
